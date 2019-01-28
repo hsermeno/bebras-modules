@@ -540,7 +540,7 @@ var quickAlgoInterface = {
                         '<span>' +
                             "<span class='capacity'></span>" +
                             "<button type='button' onclick='quickAlgoInterface.toggleFullscreen();'><span class='fas fa-expand'></span></button>" +
-                            "<button type='button' class='displayHelpBtn' onclick='conceptViewer.show()'><span class='fas fa-question'></span></button>" +
+//                            "<button type='button' class='displayHelpBtn' onclick='conceptViewer.show()'><span class='fas fa-question'></span></button>" +
                         '</span>' +
                     '</div>' +
                     '<div id="mode-player" class="mode" onclick="quickAlgoInterface.selectMode(\'mode-player\');">' +
@@ -822,7 +822,7 @@ $(document).ready(function() {
 
     $('head').append('\
         <link rel="stylesheet"\
-        href="' + (modulesPath?modulesPath:'../../modules') + '/fonts/fontAwesome/css/all.css">');
+        href="' + (window.modulesPath ? window.modulesPath : '../../modules') + '/fonts/fontAwesome/css/all.css">');
 
     var taskTitleTarget = $("#miniPlatformHeader table td").first();
     if(taskTitleTarget.length) {
