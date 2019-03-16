@@ -700,7 +700,7 @@ var getContext = function(display, infos, curLevel) {
                obstacleInFront: "astéroïde devant"
             },
             code: {
-               obstacleInFront: "astéroideDevant"
+               obstacleInFront: "asteroideDevant"
             },
             messages: {
                obstacle: "Attention à l'astéroïde !"
@@ -1192,14 +1192,10 @@ var getContext = function(display, infos, curLevel) {
             obstacle: { num: 2, img: "obstacle.png", side: 60, isObstacle: true, zOrder: 0 },
             green: { num: 3, color: "#b5e61d", side: 60, isExit: true, zOrder: 0},
             number: { num: 5, side: 60, zOrder: 1 },
-            top_horizontal_closed_door: { num: 6, img: "top_horizontal_closed_door.png", side: 60, isObstacle: true, zOrder: 1 },
-            bottom_horizontal_closed_door: { num: 7, img: "bottom_horizontal_closed_door.png", side: 60, isObstacle: true, zOrder: 1 },
-            left_vertical_closed_door: { num: 8, img: "left_vertical_closed_door.png", side: 60, isObstacle: true, zOrder: 1 },
-            right_vertical_closed_door: { num: 9, img: "right_vertical_closed_door.png", side: 60, isObstacle: true, zOrder: 1 },
-            top_horizontal_open_door: { num: 10, img: "top_horizontal_open_door.png", side: 60, zOrder: 1},
-            bottom_horizontal_open_door: { num: 11, img: "bottom_horizontal_open_door.png", side: 60, zOrder: 1},
-            left_vertical_open_door: { num: 12, img: "left_vertical_open_door.png", side: 60, zOrder: 1},
-            right_vertical_open_door: { num: 13, img: "right_vertical_open_door.png", side: 60, zOrder: 1},
+            horizontal_closed_door: { num: 7, img: "horizontal_closed_door.png", side: 60, isObstacle: true, zOrder: 1 },
+            vertical_closed_door: { num: 8, img: "vertical_closed_door.png", side: 60, isObstacle: true, zOrder: 1 },
+            horizontal_open_door: { num: 11, img: "horizontal_open_door.png", side: 60, zOrder: 1},
+            vertical_open_door: { num: 12, img: "vertical_open_door.png", side: 60, zOrder: 1}
          },
          checkEndCondition: robotEndConditions.checkReachExit
       },
@@ -1427,9 +1423,11 @@ var getContext = function(display, infos, curLevel) {
             mirrorZ: { num: 7, img: "mirrorZ.png", isMirror: true, mirrorFunction: function(dir) { return (10 - dir) % 8; }, side: 60 },
             mirrorH: { num: 8, img: "mirrorH.png", isMirror: true, mirrorFunction: function(dir) { return (12 - dir) % 8; }, side: 60 },
             mirrorI: { num: 9, img: "mirrorI.png", isMirror: true, mirrorFunction: function(dir) { return (8 - dir) % 8; }, side: 60 },
+            number: { side: 60, zOrder: 1 },
+            board_background: { num: 4, color: "#685aa6", side: 60, zOrder: 0 },
          },
          checkEndCondition: robotEndConditions.checkLights
-      },
+      }, 
       marbles: {
          bagSize: 1,
          backgroundColor: "#dadada",
@@ -1440,6 +1438,7 @@ var getContext = function(display, infos, curLevel) {
             marble: { num: 4, img: "marble.png", side: 60, isWithdrawable: true, zOrder: 1 },
             number: { num: 5, side: 60, zOrder: 1 },
             board: { num: 6, side: 60, isWritable: true, zOrder: 1 },
+            white: { num: 7, color: "#ffffff", side: 60, zOrder: 0 } 
          },
          checkEndCondition: robotEndConditions.checkContainersFilled
       },
@@ -1477,7 +1476,7 @@ var getContext = function(display, infos, curLevel) {
                   yieldsValue: true
                },
                func: function(callback) {
-                  this.callCallback(callback, this.isOn(function(obj) {return obj.isPaint===true;}));
+                  this.callCallback(callback, this.isOn(function(obj) {return obj.isWithdrawable===true;}));
                }
             }
          ],
@@ -1487,12 +1486,12 @@ var getContext = function(display, infos, curLevel) {
          },
          backgroundColor: "#ffbf5e",
          itemTypes: {
-            red_robot: { img: "red_robot.png", side: 90, nbStates: 1, isRobot: true, offsetX: -15, offsetY: 15, zOrder: 2 },
+            red_robot: { img: "red_robot.png", side: 90, nbStates: 1, isRobot: true, offsetX: -15, offsetY: 15, zOrder: 3 },
             initialPaint: { num: 2, color: "#2e1de5", side: 60, isPaint: true, zOrder: 1 },
             marker: { num: 3, img: "marker.png", side: 60, isContainer: true, zOrder: 0 },
             marker_white: { num: 4, img: "marker_white.png", isContainer: true, isFake: true, side: 60, zOrder: 0 },
             paint: { color: "#2e1de5", side: 60, isWithdrawable: true, zOrder: 1 },
-            number: { side: 60, zOrder: 1 },
+            number: { side: 60, zOrder: 2 },
             board_background: { num: 5, color: "#ffffff", side: 60, zOrder: 0 },
             board: { side: 60, isWritable: true, zOrder: 1 }
          },
@@ -1502,7 +1501,8 @@ var getContext = function(display, infos, curLevel) {
          backgroundColor: "#666699",
          itemTypes: {
             green_robot: { img: "green_robot.png", side: 80, nbStates: 9, isRobot: true, offsetX: -11, zOrder: 2 },
-            stars: { num: 3, img: "stars.png", side: 60, zOrder: 0},
+            board_background: { num: 2, color: "#8d8dbe", side: 60, zOrder: 0},
+            stars: { num: 3, img: "stars.png", side: 60, zOrder: 1},
             asteroide: { num: 4, img: "asteroide.png", side: 60, isObstacle: true, zOrder: 1 },
             rocket: { num: 5, img: "rocket.png", side: 60, isExit: true, zOrder: 1 },
             obstacle: { num: 6, img: "obstacle.png", side: 60, isObstacle: true, zOrder: 1 },
@@ -2866,7 +2866,7 @@ var getContext = function(display, infos, curLevel) {
          throw(strings.messages.failureReadHere);
       }
       
-      return numbers[0].value;
+      return parseInt(numbers[0].value);
    };
    
    context.pushObject = function(callback) {

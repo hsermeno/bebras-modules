@@ -1,3 +1,31 @@
+if(typeof require != 'undefined') {
+    var {
+        conjugations,
+        pastParticiples,
+        speConjugations,
+        auxConjugations,
+        allerConj,
+        exceptions,
+        negationWords,
+        determinerTypes,
+        determiners,
+        pronounTypes,
+        subjPronounTypes,
+        pronouns,
+        nounTypes,
+        nouns,
+        adjectiveTypes,
+        adjectives,
+        auxiliaryVerbs,
+        verbTypes,
+        verbs,
+        adverbTypes,
+        adverbs,
+        elisionWithH,
+        elisionWithHVerb
+    } = require('./sentences_wordList.js');
+    var block = "";
+}
 
 function init() {
    $("#form").html(createForm);
@@ -407,12 +435,16 @@ function getWord(block,person,plural,gender,tense,rng,coBefore) {
       case "N-F-S-noDetBeforeQue":
       case "CO-M-S-noDet":
       case "CO-F-S-noDet":
+      case "CO-M-S-noDetBeforeQue":
+      case "CO-F-S-noDetBeforeQue":
       case "N-M-P-noDet":
       case "N-F-P-noDet":
       case "N-M-P-noDetBeforeQue":
       case "N-F-P-noDetBeforeQue":
       case "CO-M-P-noDet":
       case "CO-F-P-noDet":
+      case "CO-M-P-noDetBeforeQue":
+      case "CO-F-P-noDetBeforeQue":
          person = 3;
          plural = block.includes("-P-") ? 1 : 0;
          gender = block.includes("-F-") ? "F" : "M";
@@ -527,7 +559,6 @@ function getWord(block,person,plural,gender,tense,rng,coBefore) {
    return [word,person,plural,gender];
 }
 
-// module.exports.generate = function (rng, minLength, maxLength, withSpaces) {
 function generateText(rng,minLength,maxLength,withSpaces){
    var text = "";
    var curLength = 0;
@@ -590,7 +621,7 @@ function generateSentence(rng,n,struc,withSpaces,textMode){
 }
 
 function getDeterminer(gender,plural,type,rng) {
-   var determinerType = (type) ? type : pickOne(determinerTypes,rng,(determinerTypes.length - 1 + plural));
+   var determinerType = (type) ? type : pickOne(determinerTypes,rng,(determinerTypes.length - 1 + plural),true);
    if(determinerType != "numeral_adjective"){
       if(plural){
          var determiner = determiners[determinerType][gender][0][1];
@@ -658,7 +689,7 @@ function pluralize(str,plural) {
    }
    if(str.endsWith("s") || str.endsWith("x")){
       return str;
-   }else if(str.endsWith("al") && str != "chacal" && str != "banal"){
+   }else if(str.endsWith("al") && str != "chacal" && str != "banal" && str != "narval"){
       return str.replace(/al$/,"aux");
    }else if(str.endsWith("au")){
       return str.replace(/au$/,"aux");
@@ -892,7 +923,8 @@ const structureTypes = [
    "adv-aftVerb",
    // "adv-aftNegVerb",
    "adv-beforeAdj",
-   "adv-locution"
+   "adv-locution",
+   "de+Noun" // nom après "de"
 ];
 const structures = [ // [structure,weight]
    [["3P-S","VI-str"],40],
@@ -919,14 +951,32 @@ const structures = [ // [structure,weight]
    [["adv-locution","2P-S","VT-str","CO"],10],
    [["adv-locution","1P-P","VT-str","CO"],5],
    [["adv-locution","2P-P","VT-str","CO"],5],
-   [["3P-S-que","VI-str"],40],
-   [["3P-P-que","VI-str"],20],
-   [["3P-S-que","VT-str","CO"],80],
-   [["3P-P-que","VT-str","CO"],40],
-   [["adv-locution","3P-S-que","VI-str"],20],
-   [["adv-locution","3P-P-que","VI-str"],10],
-   [["adv-locution","3P-S-que","VT-str","CO"],40],
-   [["adv-locution","3P-P-que","VT-str","CO"],20],
+
+   /*** avec subordonnée relative en "que" ***/
+   [["3P-S-que","VI-str"],8],
+   [["3P-P-que","VI-str"],4],
+   [["3P-S-que","VT-str","CO"],16],
+   [["3P-P-que","VT-str","CO"],8],
+   [["adv-locution","3P-S-que","VI-str"],4],
+   [["adv-locution","3P-P-que","VI-str"],2],
+   [["adv-locution","3P-S-que","VT-str","CO"],16],
+   [["adv-locution","3P-P-que","VT-str","CO"],4],
+   [["3P-S","VT-str","CO-que"],16],
+   [["3P-P","VT-str","CO-que"],8],
+   [["1P-S","VT-str","CO-que"],4],
+   [["2P-S","VT-str","CO-que"],4],
+   [["1P-P","VT-str","CO-que"],2],
+   [["2P-P","VT-str","CO-que"],2],
+   [["adv-locution","3P-S","VT-str","CO-que"],8],
+   [["adv-locution","3P-P","VT-str","CO-que"],4],
+   [["adv-locution","1P-S","VT-str","CO-que"],2],
+   [["adv-locution","2P-S","VT-str","CO-que"],2],
+   [["adv-locution","1P-P","VT-str","CO-que"],1],
+   [["adv-locution","2P-P","VT-str","CO-que"],1],
+   [["3P-S-que","VT-str","CO-que"],16],
+   [["3P-P-que","VT-str","CO-que"],8],
+   [["adv-locution","3P-S-que","VT-str","CO-que"],8],
+   [["adv-locution","3P-P-que","VT-str","CO-que"],4]
 ];
 const structuresQue = [ // structures de subordonnée relative suivant "que"
    [["3P-S","VT-str"],80],
@@ -981,7 +1031,7 @@ const nmsNoDetBeforeQue = [   // [subset,weight]
 ];
 const nfsNoDet = [   // [subset,weight]
    [nouns["name"].F,1],
-   [nouns["city"],1],
+   // [nouns["city"],1],
    [pronouns["demonstrative"].F,1],
    [pronouns["indefinite"].F.filter(word => word[0] != ""),1],
    [[["elle"]],1],
@@ -989,7 +1039,7 @@ const nfsNoDet = [   // [subset,weight]
 ];
 const nfsNoDetBeforeQue = [   // [subset,weight]
    [nouns["name"].F,1],
-   [nouns["city"],1],
+   // [nouns["city"],1],
    [pronouns["demonstrative_2"].F,1],
    [[["la mienne"],["la tienne"],["la sienne"],["la vôtre"],["la nôtre"],["la leur"]],1]
 ];
@@ -1046,19 +1096,28 @@ const comsNoDet = [  // [subset,weight]
    [pronouns["indefinite"].M.filter(word => (word[0].toLowerCase() != "on" && word[0].toLowerCase() != "quiconque" && word[0].toLowerCase() != "chacun" && word[0] != "")),1],
    [[["le mien"],["le tien"],["le sien"],["le vôtre"],["le nôtre"],["le leur"]],1]
 ];
+const comsNoDetBeforeQue = nmsNoDetBeforeQue;
 const cofsNoDet = [  // [subset,weight]
    [nouns["name"].F,1],
    [nouns["city"],1],
    [pronouns["demonstrative"].F,1],
-   // [pronouns["indefinite"].F.filter(word => word[0] != ""),1],
    [[["la mienne"],["la tienne"],["la sienne"],["la vôtre"],["la nôtre"],["la leur"]],1]
 ];
+const cofsNoDetBeforeQue = nfsNoDetBeforeQue;
 const compNoDet = [  // [subset,weight]
    [pronouns["demonstrative"].M.filter(word => word[1] != ""),1],
    [[["","les miens"],["","les tiens"],["","les siens"],["","les vôtres"],["","les nôtres"],["","les leurs"]],1]
 ];
+const compNoDetBeforeQue = [   // [subset,weight]
+   [pronouns["demonstrative_2"].M.filter(word => word[1] != ""),1],
+   [[["","les miens"],["","les tiens"],["","les siens"],["","les vôtres"],["","les nôtres"],["","les leurs"]],1]
+];
 const cofpNoDet = [  // [subset,weight]
    [pronouns["demonstrative"].F,1],
+   [[["","les miennes"],["","les tiennes"],["","les siennes"],["","les vôtres"],["","les nôtres"],["","les leurs"]],1]
+];
+const cofpNoDetBeforeQue = [   // [subset,weight]
+   [pronouns["demonstrative_2"].F,1],
    [[["","les miennes"],["","les tiennes"],["","les siennes"],["","les vôtres"],["","les nôtres"],["","les leurs"]],1]
 ];
 
@@ -1118,6 +1177,8 @@ const batches = {
    "VT-neg": verbs["transitive"],
    "CO-M-S-noDet": comsNoDet,
    "CO-F-S-noDet": cofsNoDet,
+   "CO-M-S-noDetBeforeQue": comsNoDetBeforeQue,
+   "CO-F-S-noDetBeforeQue": cofsNoDetBeforeQue,
    "CO-M-S": nms,
    "CO-F-S": nfs,
    "CO-M-S-adj": nms,
@@ -1128,6 +1189,8 @@ const batches = {
    "CO-F-S-adj-beforeDe": nfsBeforeDe,
    "CO-M-P-noDet": compNoDet,
    "CO-F-P-noDet": cofpNoDet,
+   "CO-M-P-noDetBeforeQue": compNoDetBeforeQue,
+   "CO-F-P-noDetBeforeQue": cofpNoDetBeforeQue,
    "CO-M-P": nmp,
    "CO-F-P": nfp,
    "CO-M-P-adj": nmp,
@@ -1237,5 +1300,32 @@ const set = {
       ["CO-F-P-de",1],
       ["CO-F-P-adj",1],
       ["CO-F-P-adj-de",1]
+   ],
+   "CO-beforeQue": [
+      ["CO-M-S-noDetBeforeQue",1],
+      ["CO-M-S",1],
+      ["CO-M-S-de",1],
+      ["CO-M-S-adj",1],
+      ["CO-M-S-adj-de",1],
+      ["CO-F-S-noDetBeforeQue",1],
+      ["CO-F-S",1],
+      ["CO-F-S-de",1],
+      ["CO-F-S-adj",1],
+      ["CO-F-S-adj-de",1],
+      ["CO-M-P-noDetBeforeQue",1],
+      ["CO-M-P",1],
+      ["CO-M-P-de",1],
+      ["CO-M-P-adj",1],
+      ["CO-M-P-adj-de",1],
+      ["CO-F-P-noDetBeforeQue",1],
+      ["CO-F-P",1],
+      ["CO-F-P-de",1],
+      ["CO-F-P-adj",1],
+      ["CO-F-P-adj-de",1]
    ]
 };
+
+if(typeof exports != 'undefined') {
+    exports.generate = generateText;
+    exports.generateSentence = generateSentence;
+}

@@ -1,5 +1,6 @@
+(function (exports) {
 
-const conjugations = [  // 1er et 2ème groupes
+exports.conjugations = [  // 1er et 2ème groupes
    { 
       "present": ["e","es","e","ons","ez","ent"],
       "imparfait": ["ais","ais","ait","ions","iez","aient"],
@@ -11,16 +12,16 @@ const conjugations = [  // 1er et 2ème groupes
       "futur": ["rai","ras","ra","rons","rez","ront"]   
    }
 ];
-const pastParticiples = [  // 1er et 2ème groupes
+exports.pastParticiples = [  // 1er et 2ème groupes
    "é","i"
 ];
-const speConjugations = [  // 3ème groupe
+exports.speConjugations = [  // 3ème groupe
    { "present": ["iens","iens","ient","enons","enez","iennent"] },
    { "present": ["eux","eux","eut","oulons","oulez","eulent"] },
    { "present": ["eux","eux","eut","ouvons","ouvez","euvent"] },
    { "present": ["ois","ois","oit","evons","evez","oivent"] }
 ];
-const auxConjugations = [
+exports.auxConjugations = [
    { 
       "present": ["ai","as","a","avons","avez","ont"],
       "imparfait": ["avais","avais","avait","avions","aviez","avaient"],
@@ -32,14 +33,14 @@ const auxConjugations = [
       "futur": ["serai","seras","sera","serons","serez","seront"] 
    }
 ];
-const allerConj = {
+exports.allerConj = {
    "present": ["vais","vas","va","allons","allez","vont"]
 };
-const exceptions = [
+exports.exceptions = [
    [ "acheter", "geler", "haleter", "déceler", "modeler", "ciseler", "congeler", "marteler", "crocheter" ]
 ];
 
-const negationWords = [
+exports.negationWords = [
    "pas",
    "plus",
    "jamais",
@@ -64,13 +65,13 @@ const negationWords = [
    "plus vraiment"
    ];
 
-const determinerTypes = [
-   "definite_article",
-   "indefinite_article",
-   "demonstrative_adjective",
-   "numeral_adjective"
+exports.determinerTypes = [
+   ["definite_article",1],
+   ["indefinite_article",2],
+   ["demonstrative_adjective",1],
+   ["numeral_adjective",1]
    ];
-const determiners = {
+exports.determiners = {
    "definite_article": {
       "M": [
          [ "le", "les" ]
@@ -101,9 +102,9 @@ const determiners = {
    ]
 };
 
-const pronounTypes = ["personal","personal_2","possessive","demonstrative","demonstrative_2","indefinite","relative","relative_2"];
-const subjPronounTypes = ["personal","demonstrative_2","indefinite"];
-const pronouns = {
+exports.pronounTypes = ["personal","personal_2","possessive","demonstrative","demonstrative_2","indefinite","relative","relative_2"];
+exports.subjPronounTypes = ["personal","demonstrative_2","indefinite"];
+exports.pronouns = {
 /*   "personal": [  // [name, gender, plural, person]
       [ "Je", 2, 0, 1 ],
       [ "Tu", 2, 0, 2 ],
@@ -171,8 +172,8 @@ const pronouns = {
    //    ["laquelle", 0, 0],
    //    ["lesquelles", 0, 1] ]  
 };
-const nounTypes = ["name","job","animal","plant","item","country","city"];
-const nouns = {
+exports.nounTypes = ["name","job","animal","plant","item","country","city"];
+exports.nouns = {
    "name": { 
       "M": [
          [ "Achille" ],
@@ -794,7 +795,6 @@ const nouns = {
          [ "Bison" ],
          [ "Blaireau" ],
          [ "Boa" ],
-         [ "Boeuf" ],
          [ "Bouquetin" ],
          [ "Buffle" ],
          [ "Cachalot" ],
@@ -1046,7 +1046,6 @@ const nouns = {
          [ "Costa Rica" ],
          [ "Danemark" ],
          [ "Gabon" ],
-         [ "Groenland" ],
          [ "Guatemala" ],
          [ "Honduras" ],
          [ "Japon" ],
@@ -1173,8 +1172,8 @@ const nouns = {
       [ "Vienne" ]       
    ]
 };
-const adjectiveTypes = ["before","after"];   // placé avant ou après le nom
-const adjectives = { // [M-S,F-S]
+exports.adjectiveTypes = ["before","after"];   // placé avant ou après le nom
+exports.adjectives = { // [M-S,F-S]
    "before": [
       [ "abject", "e" ],
       [ "abominable", "" ],
@@ -1261,7 +1260,6 @@ const adjectives = { // [M-S,F-S]
       [ "doux", "douce" ],
       [ "dur", "e" ],   
       [ "éblouissant", "e" ],
-      [ "écoeurant", "e" ],
       [ "effrayant", "e" ],
       [ "élégant", "e" ],
       [ "embêtant", "e" ],
@@ -1307,21 +1305,20 @@ const adjectives = { // [M-S,F-S]
       [ "génial", "e" ],
       [ "gentil", "gentille" ],
       [ "glaçant", "e" ],
-      [ "glacial", "e" ],
       [ "gluant", "e" ],
       [ "gracieux", "gracieuse" ],
       [ "grand", "e" ], 
       [ "grandiose", "" ],
       [ "gros", "grosse" ],   
       [ "habile", "" ],
-      [ "halucinant", "e" ],
+      [ "hallucinant", "e" ],
       [ "harmonieux", "harmonieuse" ],
       [ "heureux", "heureuse" ],
       [ "hideux", "hideuse" ],
       [ "honnête", "" ],
       [ "horrible", "" ],
       [ "humble", "" ],
-      [ "ignoble", "e" ],
+      [ "ignoble", "" ],
       [ "immense", "" ],
       [ "impitoyable", "" ],
       [ "important", "e" ],
@@ -1415,7 +1412,6 @@ const adjectives = { // [M-S,F-S]
       [ "rigoureux", "rigoureuse" ],
       [ "robuste", "" ],
       [ "séduisant", "e" ],
-      [ "sémillant", "e" ],
    ],
    "after": [
       [ "abject", "e" ],
@@ -1565,7 +1561,6 @@ const adjectives = { // [M-S,F-S]
       [ "bagarreur", "bagarreuse" ],
       [ "banal", "e" ],
       [ "barbare", "" ],
-      [ "beau", "belle" ],
       [ "belge", "" ],
       [ "bête", "" ],
       [ "bienfaisant", "e" ],
@@ -1595,14 +1590,12 @@ const adjectives = { // [M-S,F-S]
       [ "celtique", "" ],
       [ "central", "e" ],
       [ "cérébral", "e" ],
-      [ "cévenol", "e" ],
       [ "chaleureux", "chaleureuse" ],
       [ "chaotique", "" ],
       [ "charmant", "e" ],
       [ "chauve", "" ],
       [ "chimique", "" ],
       [ "chronophage", "" ],
-      [ "chtonien", "chtonienne" ],
       [ "chypriote", "" ],
       [ "cinglé", "e" ],
       [ "circonspect", "e" ],
@@ -1699,7 +1692,6 @@ const adjectives = { // [M-S,F-S]
       [ "éblouissant", "e" ],
       [ "écarlate", "" ],
       [ "éclairé", "e" ],
-      [ "écoeurant", "e" ],
       [ "écumant", "e" ],
       [ "effacé", "e" ],
       [ "efficace", "" ],
@@ -1814,7 +1806,6 @@ const adjectives = { // [M-S,F-S]
       [ "givré", "e" ],
       [ "glaçant", "e" ],
       [ "glacé", "e" ],
-      [ "glacial", "e" ],
       [ "gluant", "e" ],
       [ "gothique", "" ],
       [ "gracieux", "gracieuse" ],
@@ -1835,7 +1826,6 @@ const adjectives = { // [M-S,F-S]
       [ "hélicoïdal", "e" ],
       [ "hémophile", "" ],
       [ "herculéen", "herculéenne" ],
-      [ "héroïnomane", "" ],
       [ "heureux", "heureuse" ],
       [ "hideux", "hideuse" ],
       [ "hilarant", "e" ],
@@ -1950,14 +1940,12 @@ const adjectives = { // [M-S,F-S]
       [ "labyrinthique", "" ],
       [ "lâche", "" ],
       [ "laconique", "" ],
-      [ "lacustre", "" ],
       [ "laid", "e" ],
       [ "laineux", "laineuse" ],
       [ "las", "lasse" ],
       [ "latin", "e" ],
       [ "légendaire", "" ],
       [ "lent", "e" ],
-      [ "levantin", "e" ],
       [ "libre", "" ],
       [ "liquide", "" ],
       [ "lituanien", "lituanienne" ],
@@ -2010,7 +1998,6 @@ const adjectives = { // [M-S,F-S]
       [ "moche", "" ],
       [ "moderne", "" ], 
       [ "modeste", "" ],
-      [ "moelleux", "moelleuse" ],
       [ "monégasque", "" ],
       [ "monstrueux", "monstreuse" ],
       [ "morbide", "" ],
@@ -2044,7 +2031,6 @@ const adjectives = { // [M-S,F-S]
       [ "nuageux", "nuageuse" ],
       [ "nucléaire", "" ],
       [ "numérique", "" ],
-      [ "nyctalope", "" ],
       [ "obèse", "" ],
       [ "obscur", "e" ],
       [ "obséquieux", "obséquieuse" ],
@@ -2137,7 +2123,6 @@ const adjectives = { // [M-S,F-S]
       [ "prismatique", "" ],
       [ "problématique", "" ],
       [ "prodigieux", "prodigieuse" ],
-      [ "prognathe", "" ],
       [ "progressiste", "" ],
       [ "prolixe", "" ],
       [ "prophétique", "" ],
@@ -2183,11 +2168,9 @@ const adjectives = { // [M-S,F-S]
       [ "rouge", "" ],
       [ "rougeâtre", "" ],
       [ "royal", "e" ],
-      [ "runique", "" ],
       [ "rutilant", "e" ],
       [ "saccadé", "e" ],
       [ "sacré", "e" ],
-      [ "sagace", "" ],
       [ "saisissant", "e" ],
       [ "saisonnier", "e" ],
       [ "salutaire", "" ],
@@ -2261,7 +2244,6 @@ const adjectives = { // [M-S,F-S]
       [ "suspect", "e" ],
       [ "suspicieux", "suspicieuse" ],
       [ "svelte", "" ],
-      [ "sylvestre", "" ],
       [ "sympathique", "" ],
       [ "taciturne", "" ],
       [ "talentueux", "talentueuse" ],
@@ -2306,7 +2288,6 @@ const adjectives = { // [M-S,F-S]
       [ "unique", "" ],
       [ "urbain", "e" ],
       [ "vaillant", "e" ],
-      [ "valétudinaire", "" ],
       [ "valeureux", "valeureuse" ],
       [ "vampirique", "" ],
       [ "vaniteux", "vaniteuse" ],
@@ -2341,9 +2322,9 @@ const adjectives = { // [M-S,F-S]
    ]
 }; 
    
-const auxiliaryVerbs = ["avoir","être","both"];
-const verbTypes = ["intransitive","transitive","modal"];
-const verbs = {
+exports.auxiliaryVerbs = ["avoir","être","both"];
+exports.verbTypes = ["intransitive","transitive","modal"];
+exports.verbs = {
    "intransitive": [ // [verb, group, auxiliary]
       [ "abandonner", 1, 0 ],
       [ "abdiquer", 1, 0 ],
@@ -2380,7 +2361,6 @@ const verbs = {
       [ "boitiller", 1, 0 ],
       [ "bondir", 2, 0, "" ],
       [ "bouder", 1, 0 ],
-      [ "bouffer", 1, 0 ],
       [ "bouger", 1, 0 ],
       [ "bouillonner", 1, 0 ],
       [ "bouquiner", 1, 0 ],
@@ -2388,7 +2368,6 @@ const verbs = {
       [ "boxer", 1, 0 ],
       [ "braconner", 1, 0 ],
       [ "brailler", 1, 0 ],
-      [ "bramer", 1, 0 ],
       [ "bredouiller", 1, 0 ],
       [ "bricoler", 1, 0 ],
       [ "briller", 1, 0 ],
@@ -2396,16 +2375,13 @@ const verbs = {
       [ "bronzer", 1, 0 ],
       [ "broquanter", 1, 0 ],
       [ "brosser", 1, 0 ],
-      [ "brouter", 1, 0 ],
       [ "brûler", 1, 0 ],
       [ "butiner", 1, 0 ],
       [ "céder", 1, 0 ],
-      [ "cabotiner", 1, 0 ],
       [ "cafouiller", 1, 0 ],
       [ "calculer", 1, 0 ],
       [ "camper", 1, 0 ],
       [ "canarder", 1, 0 ],
-      [ "canoter", 1, 0 ],
       [ "capitaliser", 1, 0 ],
       [ "capituler", 1, 0 ],
       [ "caraméliser", 1, 0 ],
@@ -2421,7 +2397,6 @@ const verbs = {
       [ "chantonner", 1, 0 ],
       [ "chaparder", 1, 0 ],
       [ "chasser", 1, 0 ],
-      [ "chatoyer", 1, 0 ],
       [ "chauffer", 1, 0 ],
       [ "chavirer", 1, 0 ],
       [ "cheminer", 1, 0 ],
@@ -2436,12 +2411,9 @@ const verbs = {
       [ "cicatriser", 1, 0 ],
       [ "circuler", 1, 0 ],
       [ "claironner", 1, 0 ],
-      [ "claudiquer", 1, 0 ],
       [ "clignoter", 1, 0 ],
       [ "clopiner", 1, 0 ],
-      [ "coasser", 1, 0 ],
       [ "coder", 1, 0 ],
-      [ "coexister", 1, 0 ],
       [ "cogiter", 1, 0 ],
       [ "cohabiter", 1, 0 ],
       [ "collaborer", 1, 0 ],
@@ -2468,7 +2440,6 @@ const verbs = {
       [ "creuser", 1, 0 ],
       [ "cristalliser", 1, 0 ],
       [ "croasser", 1, 0 ],
-      [ "croustiller", 1, 0 ],
       [ "cuisiner", 1, 0 ],
       [ "culpabiliser", 1, 0 ],
       [ "danser", 1, 0 ],
@@ -2601,7 +2572,6 @@ const verbs = {
       [ "louvoyer", 1, 0 ],
       [ "lutter", 1, 0 ],
       [ "manifester", 1, 0 ],
-      [ "manoeuvrer", 1, 0 ],
       [ "marcher", 1, 0 ],
       [ "marchander", 1, 0 ],
       [ "mastiquer", 1, 0 ],
@@ -2717,7 +2687,6 @@ const verbs = {
       [ "skier", 1, 0 ],
       [ "slalomer", 1, 0 ],
       [ "soigner", 1, 0 ],
-      [ "soliloquer", 1, 0 ],
       [ "somnoler", 1, 0 ],
       [ "songer", 1, 0 ],
       [ "souffler", 1, 0 ],
@@ -2727,7 +2696,6 @@ const verbs = {
       [ "sprinter", 1, 0 ],
       [ "stagner", 1, 0 ],
       [ "stresser", 1, 0 ],
-      [ "striduler", 1, 0 ],
       [ "suer", 1, 0 ],
       [ "subsister", 1, 0 ],
       [ "succomber", 1, 0 ],
@@ -2741,7 +2709,6 @@ const verbs = {
       [ "téléphoner", 1, 0 ],
       [ "tergiverser", 1, 0 ],
       [ "théoriser", 1, 0 ],
-      [ "tintinnabuler", 1, 0 ],
       [ "tituber", 1, 0 ],
       [ "tomber", 1, 1 ],
       [ "tourbillonner", 1, 0 ],
@@ -2769,7 +2736,6 @@ const verbs = {
       [ "veiller", 1, 0 ],
       [ "verbaliser", 1, 0 ],
       [ "verdoyer", 1, 0 ],
-      [ "versifier", 1, 0 ],
       [ "vibrer", 1, 0 ],
       [ "virevolter", 1, 0 ],
       [ "vociférer", 1, 0 ],
@@ -2788,7 +2754,6 @@ const verbs = {
       [ "abriter", 1, 0 ],
       [ "absorber", 1, 0 ],
       [ "accabler", 1, 0 ],
-      [ "accélérer", 1, 0 ],
       [ "accentuer", 1, 0 ],
       [ "accepter", 1, 0 ],
       [ "acclamer", 1, 0 ],
@@ -2859,7 +2824,6 @@ const verbs = {
       [ "attraper", 1, 0 ],
       [ "ausculter", 1, 0 ],
       [ "automatiser", 1, 0 ],
-      [ "avaler", 1, 0 ],
       [ "bafouer", 1, 0 ],
       [ "balancer", 1, 0 ],
       [ "baliser", 1, 0 ],
@@ -2876,10 +2840,8 @@ const verbs = {
       [ "blâmer", 1, 0 ],
       [ "blesser", 1, 0 ],
       [ "bloquer", 1, 0 ],
-      [ "boiser", 1, 0 ],
       [ "bombarder", 1, 0 ],
       [ "border", 1, 0 ],
-      [ "bosseler", 1, 0 ],
       [ "boucher", 1, 0 ],
       [ "bouger", 1, 0 ],
       [ "bouder", 1, 0 ],
@@ -3023,7 +2985,6 @@ const verbs = {
       [ "critiquer", 1, 0 ],
       [ "croiser", 1, 0 ],
       [ "crypter", 1, 0 ],
-      [ "cryptographier", 1, 0 ],
       [ "cuisiner", 1, 0 ],
       [ "culpabiliser", 1, 0 ],
       [ "cultiver", 1, 0 ],
@@ -3084,7 +3045,6 @@ const verbs = {
       [ "défavoriser", 1, 0 ],
       [ "défenestrer", 1, 0 ],
       [ "défiscaliser", 1, 0 ],
-      [ "défoncer", 1, 0 ],
       [ "défricher", 1, 0 ],
       [ "dégeler", 1, 0 ],
       [ "dégivrer", 1, 0 ],
@@ -3162,7 +3122,6 @@ const verbs = {
       [ "déterrer", 1, 0 ],
       [ "détester", 1, 0 ],
       [ "détourner", 1, 0 ],
-      [ "dévier", 1, 0 ],
       [ "dévaliser", 1, 0 ],
       [ "dévaloriser", 1, 0 ],
       [ "devancer", 1, 0 ],
@@ -3406,7 +3365,6 @@ const verbs = {
       [ "imaginer", 1, 0 ],
       [ "imiter", 1, 0 ],
       [ "immortaliser", 1, 0 ],
-      [ "impatienter", 1, 0 ],
       [ "implorer", 1, 0 ],
       [ "importuner", 1, 0 ],
       [ "impressionner", 1, 0 ],
@@ -3415,7 +3373,6 @@ const verbs = {
       [ "incommoder", 1, 0 ],
       [ "inculper", 1, 0 ],
       [ "indemniser", 1, 0 ],
-      [ "indigner", 1, 0 ],
       [ "indisposer", 1, 0 ],
       [ "infecter", 1, 0 ],
       [ "influencer", 1, 0 ],
@@ -3446,7 +3403,6 @@ const verbs = {
       [ "isoler", 1, 0 ],
       [ "jeter", 1, 0 ],
       [ "jalouser", 1, 0 ],
-      [ "jardiner", 1, 0 ],
       [ "jauger", 1, 0 ],
       [ "juger", 1, 0 ],
       [ "justifier", 1, 0 ],
@@ -3486,7 +3442,6 @@ const verbs = {
       [ "maltraiter", 1, 0 ],
       [ "manger", 1, 0 ],
       [ "manipuler", 1, 0 ],
-      [ "manoeuvrer", 1, 0 ],
       [ "manquer", 1, 0 ],
       [ "maquiller", 1, 0 ],
       [ "marier", 1, 0 ],
@@ -3512,7 +3467,6 @@ const verbs = {
       [ "meubler", 1, 0 ],
       [ "militariser", 1, 0 ],
       [ "mimer", 1, 0 ],
-      [ "miner", 1, 0 ],
       [ "miniaturiser", 1, 0 ],
       [ "minimiser", 1, 0 ],
       [ "mitrailler", 1, 0 ],
@@ -3520,7 +3474,6 @@ const verbs = {
       [ "modeler", 1, 0 ],
       [ "moderniser", 1, 0 ],
       [ "modifier", 1, 0 ],
-      [ "molester", 1, 0 ],
       [ "momifier", 1, 0 ],
       [ "monopoliser", 1, 0 ],
       [ "montrer", 1, 0 ],
@@ -3534,7 +3487,6 @@ const verbs = {
       [ "mystifier", 1, 0 ],
       [ "narguer", 1, 0 ],
       [ "naturaliser", 1, 0 ],
-      [ "navrer", 1, 0 ],
       [ "négliger", 1, 0 ],
       [ "nettoyer", 1, 0 ],
       [ "neutraliser", 1, 0 ],
@@ -3547,9 +3499,6 @@ const verbs = {
       [ "nucléariser", 1, 0 ],
       [ "numériser", 1, 0 ],
       [ "numéroter", 1, 0 ],
-      [ "obliger", 1, 0 ],
-      [ "obnubiler", 1, 0 ],
-      [ "obséder", 1, 0 ],
       [ "observer", 1, 0 ],
       [ "occuper", 1, 0 ],
       [ "offenser", 1, 0 ],
@@ -3557,7 +3506,6 @@ const verbs = {
       [ "opérer", 1, 0 ],
       [ "opprimer", 1, 0 ],
       [ "optimiser", 1, 0 ],
-      [ "ordonner", 1, 0 ],
       [ "organiser", 1, 0 ],
       [ "orienter", 1, 0 ],
       [ "ornementer", 1, 0 ],
@@ -3919,7 +3867,6 @@ const verbs = {
       [ "trucider", 1, 0 ],
       [ "tuer", 1, 0 ],
       [ "tuméfier", 1, 0 ],
-      [ "turlupiner", 1, 0 ],
       [ "tutoyer", 1, 0 ],
       [ "tuyauter", 1, 0 ],
       [ "tyranniser", 1, 0 ],
@@ -3937,7 +3884,6 @@ const verbs = {
       [ "verrouiller", 1, 0 ],
       [ "vexer", 1, 0 ],
       [ "vilipender", 1, 0 ],
-      [ "violenter", 1, 0 ],
       [ "virer", 1, 0 ],
       [ "viser", 1, 0 ],
       [ "visiter", 1, 0 ],
@@ -3967,8 +3913,8 @@ const verbs = {
    ]
  };
 
-const adverbTypes = ["aftVerb","aftNegVerb","beforeAdj"];
-const adverbs =  {
+exports.adverbTypes = ["aftVerb","aftNegVerb","beforeAdj"];
+exports.adverbs =  {
    "aftVerb": [
       "abominablement",
       "abruptement",
@@ -4305,7 +4251,6 @@ const adverbs =  {
       "autant que je sache",
       "autrement dit",
       "avant toutes choses",
-      "avec tout le respect que je vous dois",
       "bien entendu",
       "bien sûr",
       "bref",
@@ -4358,6 +4303,7 @@ const adverbs =  {
       "en résumé",
       "en somme",
       "en tout cas",
+      "est-ce que",
       "et",
       "généralement",
       "grosso modo",
@@ -4393,7 +4339,7 @@ const adverbs =  {
    ]
 };
 
-const elisionWithH = [
+exports.elisionWithH = [
    "habile",
    "halucinant",
    "halucinante",
@@ -4418,7 +4364,7 @@ const elisionWithH = [
    "humble"
 ];
 
-const elisionWithHVerb = [
+exports.elisionWithHVerb = [
    "hachur",
    "hallucin",
    "harmonis",
@@ -4437,3 +4383,6 @@ const elisionWithHVerb = [
    "hydrat",
    "hypnotis"
 ];
+
+// Make it loadable both in node.js and in a browser
+})(typeof exports == 'undefined' ? window : exports);

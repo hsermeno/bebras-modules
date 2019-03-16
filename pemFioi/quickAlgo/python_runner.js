@@ -39,7 +39,7 @@ function PythonInterpreter(context, msgCallback) {
 
     // If there are arguments, convert them from Skulpt format to the libs format
     handler += "\n\tvar args = Array.from(arguments);";
-    handler += "\n\tfor(var i=0; i<args.length; i++) { args[i] = args[i].v; };";
+    handler += "\n\tfor(var i=0; i<args.length; i++) { args[i] = currentPythonContext.runner.skToJs(args[i]); };";
 
     handler += "\n\tsusp.resume = function() { return result; };";
     handler += "\n\tsusp.data = {type: 'Sk.promise', promise: new Promise(function(resolve) {";
@@ -179,6 +179,15 @@ function PythonInterpreter(context, msgCallback) {
     }
   };
 
+  this.skToJs = function(val) {
+    // Convert Skulpt item to JavaScript
+    if(val instanceof Sk.builtin.bool) {
+      return val.v ? true : false;
+    } else {
+      return val.v;
+    }
+  };
+
   this._setTimeout = function(func, time) {
     var timeoutId = null;
     var that = this;
@@ -212,11 +221,11 @@ function PythonInterpreter(context, msgCallback) {
     target.addEventListener(eventName, listenerFunc);
   };
 
-  this.waitCallback = function (callback, value) {
+  this.waitCallback = function (callback) {
     // Returns a callback to be called once we can continue the execution
     this._paused = true;
     var that = this;
-    return function() {
+    return function(value) {
       that.noDelay(callback, value);
     };
   };
@@ -235,7 +244,7 @@ function PythonInterpreter(context, msgCallback) {
   };
 
   this._createPrimitive = function (data) {
-    if (data === undefined) {
+    if (data === undefined || data === null) {
       return Sk.builtin.none.none$;  // Reuse the same object.
     }
     var type = typeof data;
@@ -280,6 +289,10 @@ function PythonInterpreter(context, msgCallback) {
     });
     Sk.pre = "edoutput";
     Sk.pre = "codeoutput";
+
+    // Disable document library
+    delete Sk.builtinFiles["files"]["src/lib/document.js"];
+
     this.context.callCallback = this.noDelay.bind(this);
   };
 
@@ -312,6 +325,14 @@ function PythonInterpreter(context, msgCallback) {
   };
 
   this._continue = function () {
+    if (this.context.infos.checkEndEveryTurn) {
+      try {
+        this.context.infos.checkEndCondition(context, false);
+      } catch(e) {
+        this._onStepError(e);
+        return;
+      }
+    }
     if (this._steps >= this._maxIterations) {
       this._onStepError(window.languageStrings.tooManyIterations);
     } else if (this._stepsWithoutAction >= this._maxIterWithoutAction) {
